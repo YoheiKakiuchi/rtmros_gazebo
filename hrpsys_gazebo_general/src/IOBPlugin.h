@@ -162,6 +162,8 @@ namespace gazebo
     std::string controller_name;
     bool use_synchronized_command;
     bool use_velocity_feedback;
+    //
+    unsigned int update_counter;
 
     static inline int xmlrpc_value_as_int(XmlRpc::XmlRpcValue &v) {
       if((v.getType() == XmlRpc::XmlRpcValue::TypeDouble) ||

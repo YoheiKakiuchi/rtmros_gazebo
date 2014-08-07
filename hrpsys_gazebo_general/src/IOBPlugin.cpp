@@ -11,7 +11,7 @@ namespace gazebo
 {
 GZ_REGISTER_MODEL_PLUGIN(IOBPlugin);
 
-IOBPlugin::IOBPlugin() {
+IOBPlugin::IOBPlugin() : update_counter(0) {
 }
 
 IOBPlugin::~IOBPlugin() {
@@ -597,6 +597,7 @@ void IOBPlugin::PublishJointState() {
 void IOBPlugin::UpdateStates() {
   //ROS_DEBUG("update");
   common::Time curTime = this->world->GetSimTime();
+  this->update_counter++;
   if (curTime > this->lastControllerUpdateTime) {
     // gather robot state data
     this->GetRobotStates(curTime);
@@ -673,7 +674,7 @@ void IOBPlugin::GetRobotStates(const common::Time &_curTime){
 
   // populate robotState from robot
   this->robotState.header.stamp = ros::Time(_curTime.sec, _curTime.nsec);
-
+  this->robotState.header.seq   = this->update_counter;
   //
   for (unsigned int i = 0; i < this->joints.size(); ++i) {
     this->robotState.position[i] = this->joints[i]->GetAngle(0).Radian();
