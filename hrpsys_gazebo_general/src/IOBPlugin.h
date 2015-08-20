@@ -194,10 +194,16 @@ namespace gazebo
       // not number
       return 0.0;
     }
-
+    // force sensor averaging
     int force_sensor_average_window_size;
     int force_sensor_average_cnt;
-
     std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<geometry_msgs::WrenchStamped> > > > forceValQueueMap;
+    // effort averaging
+    int effort_average_cnt;
+    int effort_average_window_size;
+    std::vector< boost::shared_ptr<std::vector<double> > > effortValQueue;
+    // stepping data publish cycle
+    int publish_count;
+    int publish_step;
   };
 }
